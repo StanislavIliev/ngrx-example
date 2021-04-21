@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { PostsListComponent } from './posts/posts-list/posts-list.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,11 @@ import { PostsListComponent } from './posts/posts-list/posts-list.component';
     AppRoutingModule,
     FormsModule,
     //Тук дефинираме всички наши редюсъри
-    StoreModule.forRoot({counter: counterReducer})
+    StoreModule.forRoot({counter: counterReducer}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
