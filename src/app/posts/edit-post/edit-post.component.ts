@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Post } from 'src/app/model/post.model';
 import { AppState } from 'src/app/store/app.state';
+import { updatePost } from '../state/posts.actions';
 import { getPostById } from '../state/posts.selectors';
 @Component({
   selector: 'app-edit-post',
@@ -12,10 +13,10 @@ import { getPostById } from '../state/posts.selectors';
   styleUrls: ['./edit-post.component.css']
 })
 export class EditPostComponent implements OnInit, OnDestroy {
-  
+
   post: Post;
   postForm: FormGroup;
-  postSubscription : Subscription;
+  postSubscription: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute, private store: Store<AppState>
@@ -33,13 +34,27 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.postForm = new FormGroup({
-      title: new FormControl(this.post.title, [Validators.required ,Validators.minLength(6)]),
-      description: new FormControl(this.post.description, [Validators.required ,Validators.minLength(10)])
+      title: new FormControl(this.post.title, [Validators.required, Validators.minLength(6)]),
+      description: new FormControl(this.post.description, [Validators.required, Validators.minLength(10)])
     });
   }
-   
-  ngOnDestroy(){
-    if(this.postSubscription){
+
+  onSubmit() {
+    if (!this.postForm.valid) {
+      return;
+    }
+    const title = this.postForm.value.title;
+    const description = this.postForm.value.description;
+    const post: Post = {
+      id: this.post.id,
+      title,
+      description
+    }
+    this.store.dispatch(updatePost({post}));
+  }
+
+  ngOnDestroy() {
+    if (this.postSubscription) {
       this.postSubscription.unsubscribe();
     }
   }
