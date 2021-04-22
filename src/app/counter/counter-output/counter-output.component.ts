@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { getCounter } from 'src/app/state/counter.selectors';
-import { CounterState } from 'src/app/state/counter.state';
+import { getCounter } from 'src/app/counter/state/counter.selectors';
+import { CounterState } from 'src/app/counter/state/counter.state';
 
 @Component({
   selector: 'app-counter-output',
