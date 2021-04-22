@@ -13,9 +13,10 @@
         <table class="table table-striped" *ngIf="posts$ | async as postsData">
             <thead>
                 <tr>
-                    <td>Id</td>
-                    <td>Title</td>
-                    <td>Description</td>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,9 @@
                     <td>{{post.id}}</td>
                     <td>{{post.title}}</td>
                     <td>{{post.description}}</td>
+                    <td>
+                        <a class="btn btn-primary" [routerLink]="['/posts/edit', post.id]">Update</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
