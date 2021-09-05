@@ -3,8 +3,8 @@
         <h3>Posts list</h3>
 
         <div>
-            <a 
-            href="#" 
+            <a
+            href="#"
             class="btn btn-primary"
             [routerLink]="['/posts/add']"
             >Add Posts</a>
@@ -25,7 +25,10 @@
                     <td>{{post.title}}</td>
                     <td>{{post.description}}</td>
                     <td>
-                        <a class="btn btn-primary" [routerLink]="['/post/edit', post.id]">Update</a>
+                        <a class="btn btn-primary" [routerLink]="['/posts/edit', post.id]">Update</a>
+                        <a class="btn btn-danger" (click)="onDeletePost(post.id)">Delete</a>
+                        <a class="btn btn-info" [routerLink]="['details', post.id]">Details</a>
+
                     </td>
                 </tr>
             </tbody>

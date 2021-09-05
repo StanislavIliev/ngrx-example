@@ -1,51 +1,47 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CounterComponent } from './counter/counter/counter.component';
-import { CounterOutputComponent } from './counter/counter-output/counter-output.component';
-import { CounterButtonsComponent } from './counter/counter-buttons/counter-buttons.component';
 import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './counter/state/counter.reducer';
-import { CustomCounterInputComponent } from './counter/custom-counter-input/custom-counter-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './shared/components/header/header.component';
-import { PostsListComponent } from './posts/posts-list/posts-list.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
-import { postsReducer } from './posts/state/posts.reducer';
 import { appReducer } from './store/app.state';
-import { AddPostComponent } from './posts/add-post/add-post.component';
-import { EditPostComponent } from './posts/edit-post/edit-post.component';
-
+import { EffectsModule } from '@ngrx/effects';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { AuthEffects } from "././auth/state/auth.effects";
+import { AuthTokenInterceptor } from './services/authToken.interceptor';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './store/router/custom.serializer';
+import { SimpleNotificationsModule }  from 'angular2-notifications';
 @NgModule({
   declarations: [
     AppComponent,
-    CounterComponent,
-    CounterOutputComponent,
-    CounterButtonsComponent,
-    CustomCounterInputComponent,
     HomeComponent,
     HeaderComponent,
-    PostsListComponent,
-    AddPostComponent,
-    EditPostComponent
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
+    SimpleNotificationsModule.forRoot(),
     AppRoutingModule,
-    FormsModule,
     ReactiveFormsModule,
-    //Тук дефинираме всички наши редюсъри
+    HttpClientModule,
+    FormsModule,
+    EffectsModule.forRoot([AuthEffects]),
     StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
-    })
+    }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer
+    }),
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

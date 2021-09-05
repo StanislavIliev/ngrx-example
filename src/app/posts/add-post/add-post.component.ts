@@ -20,12 +20,12 @@ export class AddPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.postForm = new FormGroup({
-      title: new FormControl(null,
+      title: new FormControl('',
         [
           Validators.required,
           Validators.minLength(6)
         ]),
-      description: new FormControl(null,
+      description: new FormControl('',
         [
           Validators.required,
           Validators.minLength(10)
@@ -36,7 +36,7 @@ export class AddPostComponent implements OnInit {
   onAddPost(){
     if(!this.postForm.valid){
       return;
-    } 
+    }
     const post: Post = {
       title: this.postForm.value.title,
       description: this.postForm.value.description
