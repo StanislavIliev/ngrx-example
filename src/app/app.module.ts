@@ -17,6 +17,7 @@ import { AuthTokenInterceptor } from './services/authToken.interceptor';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router/custom.serializer';
 import { SimpleNotificationsModule }  from 'angular2-notifications';
+
 @NgModule({
   declarations: [
     AppComponent,
